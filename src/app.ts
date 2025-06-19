@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { errorHandler, notFoundHandler } from './middlewares/globalErrorHandler';
 
 // app.use(cors());
 // app.use(express.json());
@@ -14,4 +15,12 @@ app.use(middleware);
 app.get('/', (req, res)=>{
     res.send({success:true, message: 'Sever is Live'})
 })
+
+
+// 404 Not Found handler
+app.use(notFoundHandler);
+
+// Global Error handler 
+app.use(errorHandler);
+
 export default app;
