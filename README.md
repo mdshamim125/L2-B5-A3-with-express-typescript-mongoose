@@ -1,9 +1,9 @@
 
-
-````md
 # 📚 Library Management API
 
-A RESTful API built with **Express.js**, **TypeScript**, and **Mongoose** to manage a collection of books and their borrow records.
+````md
+
+A RESTful API built with `Express.js`, `TypeScript`, and `Mongoose` to manage a collection of books and their borrow records.
 
 ## Features
 
@@ -40,8 +40,6 @@ PORT=5000
 MONGODB_URI=mongodb_url
 ```
 
-## Running the Server
-
 ### Development Mode (with auto-reload):
 
 ```bash
@@ -67,19 +65,6 @@ npm start
 | PATCH  | `/api/books/:id` | Update a book     |
 | DELETE | `/api/books/:id` | Delete a book     |
 
-**Book Schema:**
-
-```json
-{
-  "title": "string",
-  "author": "string",
-  "genre": "FICTION | NON_FICTION | SCIENCE | HISTORY | BIOGRAPHY | FANTASY",
-  "isbn": "string",
-  "description": "string",
-  "copies": 5,
-  "available": true
-}
-```
 
 ### Borrows
 
@@ -88,15 +73,7 @@ npm start
 | POST   | `/api/borrow` | Create a borrow record     |
 | GET    | `/api/borrow` | Get borrowed books summary |
 
-**Borrow Schema:**
 
-```json
-{
-  "book": "ObjectId",
-  "quantity": 2,
-  "dueDate": "2024-06-30"
-}
-```
 
 ## Borrowed Books Summary
 
@@ -135,17 +112,31 @@ Returns total quantity borrowed per book:
 | `npm run build` | Compile TypeScript      |
 | `npm start`     | Run compiled JavaScript |
 
-## Project Structure
+
+## Project Structure (Modular Architecture)
 
 ```
+
 src/
 │
-├── controllers/
-├── models/
-├── interfaces/
-├── routes/
 ├── config/
+│   └── index.ts
+├── middlewares/
+│   └── globalErrorHandler.ts
+├── modules/
+│   ├── book/
+│   │   ├── book.controller.ts
+│   │   ├── book.interface.ts
+│   │   ├── book.model.ts
+│   │   └── book.route.ts
+│   ├── borrow/
+│   │   ├── borrow\.controller.ts
+│   │   ├── borrow\.interface.ts
+│   │   ├── borrow\.model.ts
+│   │   └── borrow\.route.ts
+├── routes/
+│   └── index.ts
 ├── app.ts
 └── server.ts
-```
 
+```
