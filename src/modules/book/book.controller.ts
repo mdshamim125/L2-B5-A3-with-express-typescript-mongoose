@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import Book from "./book.model";
 
 export const createBook = async (req: Request, res: Response) => {
@@ -25,8 +25,8 @@ export const getAllBooks = async (req: Request, res: Response) => {
     const { filter, sort = "asc", limit = "5" } = req.query;
 
     const query: any = {};
-    if(filter){
-        query.genre = filter;
+    if (filter) {
+      query.genre = filter;
     }
 
     const books = await Book.find(query)
@@ -47,3 +47,89 @@ export const getAllBooks = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getBookById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const book = await Book.findById(id);
+
+    // if (!book) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Book not found.",
+    //   });
+    // }
+
+    res.status(200).json({
+      success: true,
+      message: "Book retrieved successfully.",
+      data: book,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
+};
+
+export const updateBook = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    // if (!updatedBook) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Book not found.",
+    //   });
+    // }
+    
+    res.status(200).json({
+      success: true,
+      message: "Book updated successfully.",
+      data: updatedBook,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
+};
+
+export const deleteBook = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const deletedBook = await Book.findByIdAndDelete(id);
+
+    // if (!deletedBook) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Book not found.",
+    //   });
+    // }
+
+
+    res.status(200).json({
+      success: true,
+      message: "Book deleted successfully.",
+      data: deletedBook,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
+};
+
