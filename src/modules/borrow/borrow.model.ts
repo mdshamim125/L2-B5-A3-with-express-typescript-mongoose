@@ -18,16 +18,16 @@ const borrowSchema = new Schema<IBorrow, IBorrowModel>(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 );
 
-borrowSchema.pre("save", function(next){
-    if(this.dueDate < new Date()){
-        return next(new Error("Due date cannot be in the past."))
-    }
-    next();
-})
-
+borrowSchema.pre("save", function (next) {
+  if (this.dueDate < new Date()) {
+    return next(new Error("Due date cannot be in the past."));
+  }
+  next();
+});
 
 borrowSchema.statics.borrowBook = async function (borrowData: IBorrow) {
   const book = await Book.findById(borrowData.book);
