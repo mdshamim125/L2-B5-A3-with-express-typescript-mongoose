@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { errorHandler, notFoundHandler } from './middlewares/globalErrorHandler';
+import routes from './modules/routes';
 
 // app.use(cors());
 // app.use(express.json());
@@ -11,7 +12,7 @@ const middleware = [
     express.urlencoded({extended: true}),
 ];
 app.use(middleware);
-
+app.use(routes);
 app.get('/', (req, res)=>{
     res.send({success:true, message: 'Sever is Live'})
 })
