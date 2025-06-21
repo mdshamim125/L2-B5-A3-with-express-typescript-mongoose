@@ -1,7 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Borrow from "./borrow.model";
 
-export const borrowBook = async (req: Request, res: Response) => {
+export const borrowBook = async (req: Request,
+  res: Response,
+  next: NextFunction) => {
   try {
     const borrowedBook = await Borrow.borrowBook(req.body);
 
@@ -10,16 +12,14 @@ export const borrowBook = async (req: Request, res: Response) => {
       message: "Book borrowed successfully",
       data: borrowedBook,
     });
-  } catch (error: any) {
-    res.status(400).json({
-      message: error.message,
-      success: false,
-      error,
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const getBorrowedBooksSummary = async (req: Request, res: Response) => {
+export const getBorrowedBooksSummary = async (req: Request,
+  res: Response,
+  next: NextFunction) => {
   try {
     const summary = await Borrow.aggregate([
       {
@@ -57,11 +57,7 @@ export const getBorrowedBooksSummary = async (req: Request, res: Response) => {
       message: "Borrowed books summary retrieved successfully",
       data: summary,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      message: "Failed to fetch borrowed books summary",
-      success: false,
-      error: error.message,
-    });
+  } catch (error) {
+    next(error);
   }
 };
