@@ -26,7 +26,7 @@ export const getAllBooks = async (
   next: NextFunction
 ) => {
   try {
-    const { filter, sort = "asc", limit = "10" } = req.query;
+    const { filter, sort = "asc", limit = "12" } = req.query;
 
     const query: any = {};
     if (filter) {
